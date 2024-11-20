@@ -1,20 +1,19 @@
 package sudoku.sudoku_game;
 
 public class GameBoard {
-    int N;
-    int SRN;
-    int K;
+    private static final int Size = 9;
+    private int SRN;
+    private int removals;
     private int[][] solution;
     private int[][] initial;
     private int[][] player;
 
-    public GameBoard(int N, int K) {
-        this.N = N;
-        this.K = K;
-        this.SRN = (int) Math.sqrt(N);
-        solution = new int[N][N];
-        initial = new int[N][N];
-        player = new int[N][N];
+    public GameBoard(int removals) {
+        this.removals = removals;
+        this.SRN = (int) Math.sqrt(Size);
+        solution = new int[Size][Size];
+        initial = new int[Size][Size];
+        player = new int[Size][Size];
         resetPlayer();
     }
 
@@ -42,8 +41,8 @@ public class GameBoard {
     }
 
     Boolean check() {
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
+        for (int row = 0; row < Size; row++) {
+            for (int col = 0; col < Size; col++) {
                 if (player[row][col] != solution[row][col]) {
                     return false;
                 }
@@ -53,8 +52,8 @@ public class GameBoard {
     }
 
     public void newValues() {
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
+        for (int row = 0; row < Size; row++) {
+            for (int col = 0; col < Size; col++) {
                 solution[row][col] = 0;
                 initial[row][col] = 0;
                 player[row][col] = 0;
@@ -68,7 +67,7 @@ public class GameBoard {
 
     // Fill the diagonal SRN number of SRN x SRN matrices
     void fillDiagonal() {
-        for (int i = 0; i < N; i = i + SRN) {
+        for (int i = 0; i < Size; i = i + SRN) {
             fillBox(i, i);
         }
     }
@@ -89,7 +88,7 @@ public class GameBoard {
         for (int i = 0; i < SRN; i++) {
             for (int j = 0; j < SRN; j++) {
                 do {
-                    num = randomGenerator(N);
+                    num = randomGenerator(Size);
                 }
                 while (!unUsedInBox(row, col, num));
                 solution[row + i][col + j] = num;
@@ -111,7 +110,7 @@ public class GameBoard {
 
     // check in the row for existence
     boolean unUsedInRow(int i, int num) {
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < Size; j++)
             if (solution[i][j] == num)
                 return false;
         return true;
@@ -119,7 +118,7 @@ public class GameBoard {
 
     // check in the row for existence
     boolean unUsedInCol(int j, int num) {
-        for (int i = 0; i < N; i++)
+        for (int i = 0; i < Size; i++)
             if (solution[i][j] == num)
                 return false;
         return true;
@@ -128,29 +127,29 @@ public class GameBoard {
     // A recursive function to fill remaining
     // matrix
     boolean fillRemaining(int i, int j) {
-        if (j >= N && i < N - 1) {
+        if (j >= Size && i < Size - 1) {
             i = i + 1;
             j = 0;
         }
-        if (i >= N && j >= N)
+        if (i >= Size && j >= Size)
             return true;
 
         if (i < SRN) {
             if (j < SRN)
                 j = SRN;
-        } else if (i < N - SRN) {
+        } else if (i < Size - SRN) {
             if (j == (int) (i / SRN) * SRN)
                 j = j + SRN;
         } else {
-            if (j == N - SRN) {
+            if (j == Size - SRN) {
                 i = i + 1;
                 j = 0;
-                if (i >= N)
+                if (i >= Size)
                     return true;
             }
         }
 
-        for (int num = 1; num <= N; num++) {
+        for (int num = 1; num <= Size; num++) {
             if (CheckIfSafe(i, j, num)) {
                 solution[i][j] = num;
                 if (fillRemaining(i, j + 1))
@@ -165,20 +164,20 @@ public class GameBoard {
     // Remove the K no. of digits to
     // complete game
     public void removeKDigits() {
-        for (int row = 0; row < N; row++) {
-            for (int col = 0; col < N; col++) {
+        for (int row = 0; row < Size; row++) {
+            for (int col = 0; col < Size; col++) {
                 initial[row][col] = solution[row][col];
             }
         }
-        int count = K;
+        int count = removals;
         while (count != 0) {
-            int cellId = randomGenerator(N * N) - 1;
-            int i = (cellId / N);
-            int j = cellId % N;
+            int cellId = randomGenerator(Size * Size) - 1;
+            int i = (cellId / Size);
+            int j = cellId % Size;
             if (j != 0)
                 j = j - 1;
             Boolean can = (initial[i][j] != 0);
-            for (int k = 0, c1 = 0, c2 = 0; k < N; k++) {
+            for (int k = 0, c1 = 0, c2 = 0; k < Size; k++) {
                 if (initial[i][k] == 0) c1++;
                 if (initial[k][j] == 0) c2++;
                 if (c1 >= 7 || c2 >= 7) {
@@ -189,9 +188,9 @@ public class GameBoard {
             if (can) {
                 count--;
                 initial[i][j] = 0;
-            } else if (initial[i][N - 1] != 0) {
+            } else if (initial[i][Size - 1] != 0) {
                 count--;
-                initial[i][N - 1] = 0;
+                initial[i][Size - 1] = 0;
             }
         }
     }
