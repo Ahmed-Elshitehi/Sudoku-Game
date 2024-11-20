@@ -23,8 +23,8 @@ public class Controller implements Initializable {
     @FXML Button button_nine;
     @FXML Canvas canvas;
     GameBoard gameboard;
-    private int player_selected_row = -1;
-    private int player_selected_col = -1;
+    int player_selected_row = -1;
+    int player_selected_col = -1;
     Color line_color = Color.WHITE;
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -33,14 +33,14 @@ public class Controller implements Initializable {
         GraphicsContext context = canvas.getGraphicsContext2D();
         drawOnCanvas(context);
     }
-    private void newGame() {
+    public void newGame() {
         System.out.println("New Game");
         gameboard.newValues();
         player_selected_row = player_selected_col = -1;
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void check(){
+    public void check(){
         System.out.println("Check");
         if (gameboard.check()) {
             System.out.println("True");
@@ -54,6 +54,7 @@ public class Controller implements Initializable {
         line_color = Color.WHITE;
     }
     private void drawOnCanvas(GraphicsContext context) {
+
         int initial[][] = gameboard.getInitial();
         int[][] player = gameboard.getPlayer();
         context.clearRect(0, 0, 450, 450);
@@ -102,7 +103,7 @@ public class Controller implements Initializable {
         }
     }
 
-    private void canvasMouseClicked() {
+    public void canvasMouseClicked() {
         canvas.setOnMouseClicked(e->{
             int mouse_x = (int) e.getX();
             int mouse_y = (int) e.getY();
@@ -112,14 +113,14 @@ public class Controller implements Initializable {
         });
     }
 
-    private void reset() {
+    public void reset() {
         System.out.println("Reset");
         gameboard.resetPlayer();
         player_selected_row = player_selected_col = -1;
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonOnePressed() {
+    public void buttonOnePressed() {
         System.out.println(1);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -128,7 +129,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonTwoPressed() {
+    public void buttonTwoPressed() {
         System.out.println(2);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -137,7 +138,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonThreePressed() {
+    public void buttonThreePressed() {
         System.out.println(3);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -146,7 +147,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonFourPressed() {
+    public void buttonFourPressed() {
         System.out.println(4);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -155,7 +156,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonFivePressed() {
+    public void buttonFivePressed() {
         System.out.println(5);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -164,7 +165,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonSixPressed() {
+    public void buttonSixPressed() {
         System.out.println(6);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -173,7 +174,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonSevenPressed() {
+    public void buttonSevenPressed() {
         System.out.println(7);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -182,7 +183,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonEightPressed() {
+    public void buttonEightPressed() {
         System.out.println(8);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
@@ -191,7 +192,7 @@ public class Controller implements Initializable {
         drawOnCanvas(canvas.getGraphicsContext2D());
     }
 
-    private void buttonNinePressed() {
+    public void buttonNinePressed() {
         System.out.println(9);
         if (gameboard.getInitial()[player_selected_row][player_selected_col] != 0) {
             return;
